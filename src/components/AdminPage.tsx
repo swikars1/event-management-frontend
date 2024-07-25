@@ -37,8 +37,8 @@ import { Calendar } from "@/components/ui/calendar";
 
 export function AdminPage() {
   return (
-    <div className="flex min-h-screen w-full">
-      <aside className="bg-background border-r border-muted-foreground/10 hidden md:flex flex-col items-start justify-between py-6 px-4 gap-4">
+    <div className="flex h-screen w-full overflow-hidden">
+      <aside className="bg-background border-r h-screen border-muted-foreground/10 hidden md:flex flex-col items-start justify-between py-6 px-4 gap-4">
         <div className="flex flex-col items-start gap-4">
           <Link
             href="#"
@@ -88,7 +88,7 @@ export function AdminPage() {
           <span className="sr-only">Settings</span>
         </Button>
       </aside>
-      <div className="flex-1 flex flex-col">
+      <div className="flex-1 flex flex-col overflow-y-auto">
         <header className="bg-background border-b border-muted-foreground/10 sticky top-0 z-10 flex items-center justify-between px-4 py-3 md:px-6 md:py-4">
           <div className="flex items-center gap-4">
             <Sheet>
