@@ -30,13 +30,6 @@ export default function MainPage() {
               className="rounded-md px-3 py-2 text-sm font-medium hover:bg-muted hover:text-primary"
               prefetch={false}
             >
-              Pricing
-            </Link>
-            <Link
-              href="#"
-              className="rounded-md px-3 py-2 text-sm font-medium hover:bg-muted hover:text-primary"
-              prefetch={false}
-            >
               About
             </Link>
             <Link
@@ -218,13 +211,6 @@ export default function MainPage() {
                 prefetch={false}
               >
                 Events
-              </Link>
-              <Link
-                href="#"
-                className="text-sm font-medium hover:text-primary"
-                prefetch={false}
-              >
-                Pricing
               </Link>
               <Link
                 href="#"
