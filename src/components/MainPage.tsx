@@ -60,8 +60,9 @@ export default function MainPage() {
                   attendees.
                 </p>
                 <div className="flex gap-4">
-                  <Button>Get Started</Button>
-                  <Button variant="outline">Learn More</Button>
+                  <Link href="/create_event" prefetch={false}>
+                    <Button variant="outline">Start Booking!</Button>
+                  </Link>
                 </div>
               </div>
               <div className="flex items-center justify-center">
