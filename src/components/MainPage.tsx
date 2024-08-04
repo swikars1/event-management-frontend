@@ -71,7 +71,7 @@ export default function MainPage() {
                   different roles and access levels.
                 </p>
                 <div className="mt-8">
-                  <Button>Register Now</Button>
+                  <Button onClick={() => push("/signup")}>Register Now</Button>
                 </div>
               </div>
               <div className="flex items-center justify-center">
