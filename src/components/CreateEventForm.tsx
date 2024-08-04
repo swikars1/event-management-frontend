@@ -169,7 +169,7 @@ export function CreateEventForm() {
                         >
                           <FormControl>
                             <SelectTrigger>
-                              <SelectValue placeholder="Theme" />
+                              <SelectValue placeholder="Select Theme" />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
@@ -202,7 +202,7 @@ export function CreateEventForm() {
                         >
                           <FormControl>
                             <SelectTrigger>
-                              <SelectValue placeholder="decor" />
+                              <SelectValue placeholder="Select Decor" />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
@@ -235,7 +235,7 @@ export function CreateEventForm() {
                         >
                           <FormControl>
                             <SelectTrigger>
-                              <SelectValue placeholder="catering" />
+                              <SelectValue placeholder="Select Catering" />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
@@ -268,7 +268,7 @@ export function CreateEventForm() {
                         >
                           <FormControl>
                             <SelectTrigger>
-                              <SelectValue placeholder="entertainment" />
+                              <SelectValue placeholder="Select Entertainment" />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
@@ -306,7 +306,7 @@ export function CreateEventForm() {
                         >
                           <FormControl>
                             <SelectTrigger>
-                              <SelectValue placeholder="accommodation" />
+                              <SelectValue placeholder="Select Accommodation" />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
