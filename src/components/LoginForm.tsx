@@ -16,9 +16,12 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 // import { useLoginState } from "@/lib/useLoginState";
 // import { useUserStore } from "../../store/user.store";
 import { userService } from "@/services/user.service";
+import { useRouter } from "next/navigation";
 
 export function LoginForm() {
   // const [token, setToken] = useLocalStorage({ key: "token", initialValue: "" });
+
+  const { push } = useRouter();
   const {
     register,
     handleSubmit,
@@ -81,6 +84,16 @@ export function LoginForm() {
             </Button>
           </CardFooter>
         </form>
+        <CardDescription className="pb-5 pl-5 pr-5">
+          <p className="text-center">Don't have an account?</p>
+          <Button
+            onClick={() => push("/signup")}
+            className="w-full mt-3"
+            variant="outline"
+          >
+            Register
+          </Button>
+        </CardDescription>
       </Card>
     </div>
   );
