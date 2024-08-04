@@ -194,7 +194,7 @@ export function CreateEventForm() {
                           htmlFor="decorId"
                           className="text-sm font-medium"
                         >
-                          decor
+                          Decor
                         </FormLabel>
                         <Select
                           onValueChange={field.onChange}
@@ -227,7 +227,7 @@ export function CreateEventForm() {
                           htmlFor="cateringId"
                           className="text-sm font-medium"
                         >
-                          catering
+                          Catering
                         </FormLabel>
                         <Select
                           onValueChange={field.onChange}
@@ -260,7 +260,7 @@ export function CreateEventForm() {
                           htmlFor="entertainmentId"
                           className="text-sm font-medium"
                         >
-                          entertainment
+                          Entertainment
                         </FormLabel>
                         <Select
                           onValueChange={field.onChange}
@@ -298,7 +298,7 @@ export function CreateEventForm() {
                           htmlFor="accommodationId"
                           className="text-sm font-medium"
                         >
-                          accommodation
+                          Accommodation
                         </FormLabel>
                         <Select
                           onValueChange={field.onChange}
