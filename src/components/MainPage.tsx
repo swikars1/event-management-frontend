@@ -14,36 +14,7 @@ export default function MainPage() {
               alt="Event Planning"
             />
           </Link>
-          <nav className="hidden space-x-4 md:flex">
-            <Link
-              href="#"
-              className="rounded-md px-3 py-2 text-sm font-medium hover:bg-muted hover:text-primary"
-              prefetch={false}
-            >
-              Home
-            </Link>
-            <Link
-              href="#"
-              className="rounded-md px-3 py-2 text-sm font-medium hover:bg-muted hover:text-primary"
-              prefetch={false}
-            >
-              Events
-            </Link>
-            <Link
-              href="#"
-              className="rounded-md px-3 py-2 text-sm font-medium hover:bg-muted hover:text-primary"
-              prefetch={false}
-            >
-              About
-            </Link>
-            <Link
-              href="#"
-              className="rounded-md px-3 py-2 text-sm font-medium hover:bg-muted hover:text-primary"
-              prefetch={false}
-            >
-              Contact
-            </Link>
-          </nav>
+
           <div className="flex items-center gap-2">
             <Button variant="outline">Sign In</Button>
             <Button>Sign Up</Button>
@@ -200,36 +171,7 @@ export default function MainPage() {
               <CalendarIcon className="h-6 w-6 text-primary" />
               <span className="text-lg font-semibold">Event Planner</span>
             </div>
-            <nav className="flex gap-4">
-              <Link
-                href="#"
-                className="text-sm font-medium hover:text-primary"
-                prefetch={false}
-              >
-                Home
-              </Link>
-              <Link
-                href="#"
-                className="text-sm font-medium hover:text-primary"
-                prefetch={false}
-              >
-                Events
-              </Link>
-              <Link
-                href="#"
-                className="text-sm font-medium hover:text-primary"
-                prefetch={false}
-              >
-                About
-              </Link>
-              <Link
-                href="#"
-                className="text-sm font-medium hover:text-primary"
-                prefetch={false}
-              >
-                Contact
-              </Link>
-            </nav>
+
             <p className="text-sm text-muted-foreground">
               &copy; 2024 Event Planner. All rights reserved.
             </p>
