@@ -2,7 +2,19 @@
 
 import { API } from "@/lib/API";
 
-const create = async (payload: { email: string; password: String }) => {
+export type BookEventInputs = {
+  title: string;
+  description: string;
+  startDate: string;
+  endDate: string;
+  location: string;
+  themeId: string;
+  cateringId: string;
+  entertainmentId: string;
+  accommodationId: string;
+};
+
+const create = async (payload: BookEventInputs) => {
   const { data } = await API.post("/events", payload);
 
   return data;

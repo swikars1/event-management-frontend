@@ -7,8 +7,12 @@ export default function MainPage() {
       <header className="sticky top-0 z-50 bg-background shadow">
         <div className="container mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
           <Link href="#" className="flex items-center gap-2" prefetch={false}>
-            <CalendarIcon className="h-6 w-6 text-primary" />
-            <span className="text-lg font-semibold">Event Planner</span>
+            <img
+              src="/event_logo.png"
+              width={90}
+              height={80}
+              alt="Event Planning"
+            />
           </Link>
           <nav className="hidden space-x-4 md:flex">
             <Link
@@ -67,7 +71,7 @@ export default function MainPage() {
               </div>
               <div className="flex items-center justify-center">
                 <img
-                  src="/placeholder.svg"
+                  src="/Ephoto1.jpg"
                   width={500}
                   height={400}
                   alt="Event Planning"
@@ -96,7 +100,7 @@ export default function MainPage() {
               </div>
               <div className="flex items-center justify-center">
                 <img
-                  src="/placeholder.svg"
+                  src="/Uphoto3.webp"
                   width={500}
                   height={400}
                   alt="Registration and Authentication"
@@ -111,7 +115,7 @@ export default function MainPage() {
             <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
               <div className="flex items-center justify-center">
                 <img
-                  src="/placeholder.svg"
+                  src="/Ephoto3.jpg"
                   width={500}
                   height={400}
                   alt="Event Scheduling and Booking"
@@ -128,7 +132,9 @@ export default function MainPage() {
                   event details with just a few clicks.
                 </p>
                 <div className="mt-8">
-                  <Button>Book an Event</Button>
+                  <Link href="/create_event" prefetch={false}>
+                    <Button variant="outline">Book an Event</Button>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -146,13 +152,11 @@ export default function MainPage() {
                   managing various aspects of your events, including theme,
                   decor, catering, entertainment, and accommodations.
                 </p>
-                <div className="mt-8">
-                  <Button>Explore Planning Tools</Button>
-                </div>
+                <div className="mt-8"></div>
               </div>
               <div className="flex items-center justify-center">
                 <img
-                  src="/placeholder.svg"
+                  src="/Cphoto2.jpg"
                   width={500}
                   height={400}
                   alt="Event Planning and Coordination"
@@ -167,7 +171,7 @@ export default function MainPage() {
             <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
               <div className="flex items-center justify-center">
                 <img
-                  src="/placeholder.svg"
+                  src="/Sphoto1.jpg"
                   width={500}
                   height={400}
                   alt="Event Search and Navigation"
@@ -176,16 +180,14 @@ export default function MainPage() {
               </div>
               <div>
                 <h2 className="text-3xl font-bold tracking-tight">
-                  Seamless Event Search and Navigation
+                  Seamless Search for Event Needs
                 </h2>
                 <p className="mt-4 text-lg text-muted-foreground">
-                  Our event management app allows users to search for events
-                  based on various criteria, making it easy to find the perfect
-                  event for their needs.
+                  Our event management app allows users to search for all the
+                  events needs based on various criteria, making it easy to
+                  frame a perfect event for your needs.
                 </p>
-                <div className="mt-8">
-                  <Button>Search Events</Button>
-                </div>
+                <div className="mt-8"></div>
               </div>
             </div>
           </div>

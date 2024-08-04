@@ -20,40 +20,36 @@ import {
 import { Button } from "@/components/ui/button";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { eventService } from "@/services/event.service";
+import { BookEventInputs, eventService } from "@/services/event.service";
 import { commonService } from "@/services/common.service";
+import { FormField, FormItem, FormLabel, FormControl, Form } from "./ui/form";
+import { useToast } from "./ui/use-toast";
+import { useRouter } from "next/navigation";
 
 export function CreateEventForm() {
-  type Inputs = {
-    title: string;
-    description: string;
-    startDate: string;
-    endDate: string;
-    location: string;
-    theme: string;
-    catering: string;
-    entertainment: string;
-    accommodation: string;
-  };
+  const form = useForm<BookEventInputs>();
+  const { toast } = useToast();
 
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm<Inputs>();
+  const { push } = useRouter();
 
-  const { mutate } = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: eventService.create,
     mutationKey: ["eventsCreate"],
     onSuccess: (res) => {
-      console.log({ res });
+      push("/");
+      toast({
+        title: "Event Booking Successful.",
+      });
     },
   });
 
-  const onSubmit: SubmitHandler<Inputs> = (data) => {
-    // mutate(data);
-    console.log({ data });
+  const onSubmit: SubmitHandler<BookEventInputs> = (data) => {
+    mutate({
+      ...data,
+      startDate: new Date(data.startDate).toISOString(),
+      endDate: new Date(data.endDate).toISOString(),
+    });
+    // console.log({ data });
   };
 
   const { data: themes } = useQuery({
@@ -89,202 +85,263 @@ export function CreateEventForm() {
 
   return (
     <Card className="max-w-4xl mx-auto p-6 sm:p-8 md:p-10">
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <CardHeader>
-          <CardTitle className="text-3xl font-bold">Book an Event</CardTitle>
-          <CardDescription>
-            Fill out the details to plan your event.
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="grid gap-4">
-              <div className="grid gap-2">
-                <Label htmlFor="title" className="text-sm font-medium">
-                  Title
-                </Label>
-                <Input
-                  id="title"
-                  placeholder="Enter event title"
-                  {...register("title", { required: true })}
-                />
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="description" className="text-sm font-medium">
-                  Description
-                </Label>
-                <Textarea
-                  id="description"
-                  rows={3}
-                  placeholder="Describe your event"
-                  {...register("description", { required: true })}
-                />
-              </div>
-              <div className="grid grid-cols-2 gap-4">
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)}>
+          <CardHeader>
+            <CardTitle className="text-3xl font-bold">Book an Event</CardTitle>
+            <CardDescription>
+              Fill out the details to plan your event.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid gap-4">
                 <div className="grid gap-2">
-                  <Label htmlFor="start-date" className="text-sm font-medium">
-                    Start Date
+                  <Label htmlFor="title" className="text-sm font-medium">
+                    Title
                   </Label>
                   <Input
-                    id="start-date"
-                    type="date"
-                    {...register("startDate")}
+                    id="title"
+                    placeholder="Enter event title"
+                    {...form.register("title", { required: true })}
                   />
                 </div>
                 <div className="grid gap-2">
-                  <Label htmlFor="end-date" className="text-sm font-medium">
-                    End Date
+                  <Label htmlFor="description" className="text-sm font-medium">
+                    Description
                   </Label>
-                  <Input id="end-date" type="date" {...register("endDate")} />
+                  <Textarea
+                    id="description"
+                    rows={3}
+                    placeholder="Describe your event"
+                    {...form.register("description", { required: true })}
+                  />
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="grid gap-2">
+                    <Label htmlFor="start-date" className="text-sm font-medium">
+                      Start Date
+                    </Label>
+                    <Input
+                      id="start-date"
+                      type="date"
+                      {...form.register("startDate", { required: true })}
+                    />
+                  </div>
+                  <div className="grid gap-2">
+                    <Label htmlFor="end-date" className="text-sm font-medium">
+                      End Date
+                    </Label>
+                    <Input
+                      id="end-date"
+                      type="date"
+                      {...form.register("endDate", { required: true })}
+                    />
+                  </div>
+                </div>
+                <div className="grid gap-2">
+                  <Label htmlFor="location" className="text-sm font-medium">
+                    Location
+                  </Label>
+                  <Input
+                    id="location"
+                    placeholder="Enter event location"
+                    {...form.register("location", { required: true })}
+                  />
                 </div>
               </div>
-              <div className="grid gap-2">
-                <Label htmlFor="location" className="text-sm font-medium">
-                  Location
-                </Label>
-                <Input
-                  id="location"
-                  placeholder="Enter event location"
-                  {...register("location", { required: true })}
-                />
+              <div className="grid gap-4">
+                <div className="grid gap-2">
+                  <FormField
+                    control={form.control}
+                    name="themeId"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel
+                          htmlFor="theme"
+                          className="text-sm font-medium"
+                        >
+                          Theme
+                        </FormLabel>
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                        >
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Theme" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            {themes?.responseObject?.map((theme) => (
+                              <SelectItem key={theme.id} value={theme.id}>
+                                {theme.name}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </FormItem>
+                    )}
+                  />
+                </div>
+                <div className="grid gap-2">
+                  <FormField
+                    control={form.control}
+                    name="decorId"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel
+                          htmlFor="decorId"
+                          className="text-sm font-medium"
+                        >
+                          decor
+                        </FormLabel>
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                        >
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder="decor" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            {decors?.responseObject?.map((decor) => (
+                              <SelectItem key={decor.id} value={decor.id}>
+                                {decor.name}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </FormItem>
+                    )}
+                  />
+                </div>
+                <div className="grid gap-2">
+                  <FormField
+                    control={form.control}
+                    name="cateringId"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel
+                          htmlFor="cateringId"
+                          className="text-sm font-medium"
+                        >
+                          catering
+                        </FormLabel>
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                        >
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder="catering" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            {caterings?.responseObject?.map((catering) => (
+                              <SelectItem key={catering.id} value={catering.id}>
+                                {catering.name}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </FormItem>
+                    )}
+                  />
+                </div>
+                <div className="grid gap-2">
+                  <FormField
+                    control={form.control}
+                    name="entertainmentId"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel
+                          htmlFor="entertainmentId"
+                          className="text-sm font-medium"
+                        >
+                          entertainment
+                        </FormLabel>
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                        >
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder="entertainment" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            {entertainments?.responseObject?.map(
+                              (entertainment) => (
+                                <SelectItem
+                                  key={entertainment.id}
+                                  value={entertainment.id}
+                                >
+                                  {entertainment.name}
+                                </SelectItem>
+                              )
+                            )}
+                          </SelectContent>
+                        </Select>
+                      </FormItem>
+                    )}
+                  />
+                </div>
+                <div className="grid gap-2">
+                  <FormField
+                    control={form.control}
+                    name="accommodationId"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel
+                          htmlFor="accommodationId"
+                          className="text-sm font-medium"
+                        >
+                          accommodation
+                        </FormLabel>
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                        >
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder="accommodation" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            {accommodations?.responseObject?.map(
+                              (accommodation) => (
+                                <SelectItem
+                                  key={accommodation.id}
+                                  value={accommodation.id}
+                                >
+                                  {accommodation.name}
+                                </SelectItem>
+                              )
+                            )}
+                          </SelectContent>
+                        </Select>
+                      </FormItem>
+                    )}
+                  />
+                </div>
               </div>
             </div>
-            <div className="grid gap-4">
-              <div className="grid gap-2">
-                <Label htmlFor="theme" className="text-sm font-medium">
-                  Theme
-                </Label>
-                <Select id="theme">
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select theme" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {themes?.responseObject?.map((theme) => (
-                      <SelectItem
-                        key={theme.id}
-                        value={theme.name}
-                        {...register("theme", { required: true })}
-                      >
-                        {theme.name}
-                      </SelectItem>
-                    ))}
-                    {/* <SelectItem value="corporate">Corporate</SelectItem>
-                  <SelectItem value="casual">Casual</SelectItem>
-                  <SelectItem value="formal">Formal</SelectItem>
-                  <SelectItem value="holiday">Holiday</SelectItem> */}
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="decor" className="text-sm font-medium">
-                  Decor
-                </Label>
-                <Select id="decor">
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select decor" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {decors?.responseObject?.map((decor) => (
-                      <SelectItem
-                        key={decor.id}
-                        value={decor.name}
-                        {...register("theme")}
-                      >
-                        {decor.name}
-                      </SelectItem>
-                    ))}
-                    {/* <SelectItem value="minimalist">Minimalist</SelectItem>
-                  <SelectItem value="modern">Modern</SelectItem>
-                  <SelectItem value="rustic">Rustic</SelectItem>
-                  <SelectItem value="elegant">Elegant</SelectItem> */}
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="catering" className="text-sm font-medium">
-                  Catering
-                </Label>
-                <Select id="catering">
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select catering" />
-                  </SelectTrigger>
-
-                  <SelectContent>
-                    {caterings?.responseObject?.map((catering) => (
-                      <SelectItem
-                        key={catering.id}
-                        value={catering.name}
-                        {...register("catering")}
-                      >
-                        {catering.name}
-                      </SelectItem>
-                    ))}
-                    {/* <SelectItem value="buffet">Buffet</SelectItem>
-                  <SelectItem value="plated">Plated</SelectItem>
-                  <SelectItem value="family-style">Family Style</SelectItem>
-                  <SelectItem value="cocktail">Cocktail</SelectItem> */}
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="entertainment" className="text-sm font-medium">
-                  Entertainment
-                </Label>
-                <Select id="entertainment">
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select entertainment" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {entertainments?.responseObject?.map((entertainment) => (
-                      <SelectItem
-                        key={entertainment.id}
-                        value={entertainment.name}
-                        {...register("entertainment")}
-                      >
-                        {entertainment.name}
-                      </SelectItem>
-                    ))}
-                    {/* <SelectItem value="live-music">Live Music</SelectItem>
-                  <SelectItem value="dj">DJ</SelectItem>
-                  <SelectItem value="photo-booth">Photo Booth</SelectItem>
-                  <SelectItem value="games">Games</SelectItem> */}
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="accommodation" className="text-sm font-medium">
-                  Accommodation
-                </Label>
-                <Select id="accommodation">
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select accommodation" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {accommodations?.responseObject?.map((accommodation) => (
-                      <SelectItem
-                        key={accommodation.id}
-                        value={accommodation.name}
-                        {...register("accommodation")}
-                      >
-                        {accommodation.name}
-                      </SelectItem>
-                    ))}
-                    {/* <SelectItem value="hotel">Hotel</SelectItem>
-                  <SelectItem value="airbnb">Airbnb</SelectItem>
-                  <SelectItem value="resort">Resort</SelectItem>
-                  <SelectItem value="camping">Camping</SelectItem> */}
-                  </SelectContent>
-                </Select>
-              </div>
+          </CardContent>
+          <CardFooter>
+            <div className="flex justify-end">
+              <Button type="submit">
+                {isPending ? "Booking..." : "Book Event"}
+              </Button>
+              <span className="px-2 text-muted-foreground"></span>
+              <Button variant="outline" onClick={() => push("/")} type="reset">
+                Cancel
+              </Button>
             </div>
-          </div>
-        </CardContent>
-        <CardFooter>
-          <div className="flex justify-end">
-            <Button type="submit">Book Event</Button>
-          </div>
-        </CardFooter>
-      </form>
+          </CardFooter>
+        </form>
+      </Form>
     </Card>
   );
 }
