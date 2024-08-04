@@ -4,12 +4,12 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
-export function RegisterPage() {
+export function RegisterForm() {
   return (
     <div className="flex justify-center items-center h-screen">
       <Card className="w-full max-w-md p-6 space-y-4">
         <div className="text-center space-y-2">
-          <h1 className="text-3xl font-bold">Sign Up</h1>
+          <h1 className="text-3xl font-bold">Register</h1>
           <p className="text-muted-foreground">
             Create your account to get started.
           </p>
@@ -34,7 +34,7 @@ export function RegisterPage() {
             <Input id="password" type="password" required />
           </div>
           <Button type="submit" className="w-full">
-            Sign Up
+            Register
           </Button>
         </form>
       </Card>

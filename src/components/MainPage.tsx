@@ -1,7 +1,10 @@
+"use client";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
 export default function MainPage() {
+  const { push } = useRouter();
   return (
     <div className="flex min-h-[100dvh] flex-col bg-background">
       <header className="sticky top-0 z-50 bg-background shadow">
@@ -16,8 +19,10 @@ export default function MainPage() {
           </Link>
 
           <div className="flex items-center gap-2">
-            <Button variant="outline">Sign In</Button>
-            <Button>Sign Up</Button>
+            <Button onClick={() => push("/signin")} variant="outline">
+              Login
+            </Button>
+            <Button onClick={() => push("/signup")}>Register</Button>
           </div>
         </div>
       </header>
@@ -62,11 +67,11 @@ export default function MainPage() {
                 <p className="mt-4 text-lg text-muted-foreground">
                   Our event management app offers a secure and intuitive
                   registration and authentication process, allowing clients,
-                  event managers, and service providers to sign up with
+                  event managers, and service providers to Register with
                   different roles and access levels.
                 </p>
                 <div className="mt-8">
-                  <Button>Sign Up Now</Button>
+                  <Button>Register Now</Button>
                 </div>
               </div>
               <div className="flex items-center justify-center">
