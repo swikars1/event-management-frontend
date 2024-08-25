@@ -2,9 +2,65 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
+import { useLocalStorage } from "@/lib/useLocalStorage";
+import { useEffect, useState } from "react";
+
+function ConditionalAuthButton() {
+  "use client";
+  const { push } = useRouter();
+  const [token] = useLocalStorage({ key: "token", initialValue: "" });
+
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  console.log({ token });
+
+  if (!token && isClient) {
+    return (
+      <div className="flex items-center gap-2">
+        <Button onClick={() => push("/signin")} variant="outline">
+          Login
+        </Button>
+        <Button onClick={() => push("/signup")}>Register</Button>
+      </div>
+    );
+  } else {
+    return (
+      <div className="flex gap-2">
+        <Button
+          onClick={() => {
+            push("/bookings");
+          }}
+          variant={"outline"}
+        >
+          View Bookings
+        </Button>
+        <Button
+          onClick={() => {
+            localStorage.clear();
+            location.reload();
+          }}
+        >
+          Logout
+        </Button>
+      </div>
+    );
+  }
+}
 
 export default function MainPage() {
   const { push } = useRouter();
+
+  const [isClient, setIsClient] = useState(false);
+  const [token] = useLocalStorage({ key: "token", initialValue: "" });
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
   return (
     <div className="flex min-h-[100dvh] flex-col bg-background">
       <header className="sticky top-0 z-50 bg-background shadow">
@@ -17,13 +73,7 @@ export default function MainPage() {
               alt="Event Planning"
             />
           </Link>
-
-          <div className="flex items-center gap-2">
-            <Button onClick={() => push("/signin")} variant="outline">
-              Login
-            </Button>
-            <Button onClick={() => push("/signup")}>Register</Button>
-          </div>
+          <ConditionalAuthButton />
         </div>
       </header>
       <main className="flex-1">
@@ -40,7 +90,10 @@ export default function MainPage() {
                   attendees.
                 </p>
                 <div className="flex gap-4">
-                  <Link href="/create_event" prefetch={false}>
+                  <Link
+                    href={isClient && !token ? "/signin" : "/create_event"}
+                    prefetch={false}
+                  >
                     <Button variant="outline">Start Booking!</Button>
                   </Link>
                 </div>
@@ -70,9 +123,14 @@ export default function MainPage() {
                   event managers, and service providers to Register with
                   different roles and access levels.
                 </p>
-                <div className="mt-8">
-                  <Button onClick={() => push("/signup")}>Register Now</Button>
-                </div>
+
+                {isClient && !token ? (
+                  <div className="mt-8">
+                    <Button onClick={() => push("/signup")}>
+                      Register Now
+                    </Button>
+                  </div>
+                ) : null}
               </div>
               <div className="flex items-center justify-center">
                 <img
@@ -108,7 +166,10 @@ export default function MainPage() {
                   event details with just a few clicks.
                 </p>
                 <div className="mt-8">
-                  <Link href="/create_event" prefetch={false}>
+                  <Link
+                    href={isClient && !token ? "/signin" : "/create_event"}
+                    prefetch={false}
+                  >
                     <Button variant="outline">Book an Event</Button>
                   </Link>
                 </div>

@@ -8,6 +8,16 @@ const login = async (payload: { email: string; password: String }) => {
   return data;
 };
 
-const userService = { login };
+const register = async (payload: {
+  email: string;
+  name: string;
+  password: String;
+}) => {
+  const { data } = await API.post("/users/register", payload);
+
+  return data;
+};
+
+const userService = { login, register };
 
 export { userService };

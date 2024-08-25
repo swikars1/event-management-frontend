@@ -11,15 +11,13 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-// import { useLocalStorage } from "@/lib/useLocalStorage";
-// import { useLoginState } from "@/lib/useLoginState";
-// import { useUserStore } from "../../store/user.store";
+import { useMutation } from "@tanstack/react-query";
+import { useLocalStorage } from "@/lib/useLocalStorage";
 import { userService } from "@/services/user.service";
 import { useRouter } from "next/navigation";
 
 export function LoginForm() {
-  // const [token, setToken] = useLocalStorage({ key: "token", initialValue: "" });
+  const [token, setToken] = useLocalStorage({ key: "token", initialValue: "" });
 
   const { push } = useRouter();
   const {
@@ -33,7 +31,8 @@ export function LoginForm() {
     mutationFn: userService.login,
     mutationKey: ["loginMutation"],
     onSuccess: (res) => {
-      // setToken(res?.responseObject?.bearerToken || "");
+      setToken(res?.responseObject?.bearerToken || "");
+      push("/");
     },
   });
   const onSubmit: SubmitHandler<Inputs> = (data) => {
@@ -84,8 +83,8 @@ export function LoginForm() {
             </Button>
           </CardFooter>
         </form>
+        <p className="text-center">Don't have an account?</p>
         <CardDescription className="pb-5 pl-5 pr-5">
-          <p className="text-center">Don't have an account?</p>
           <Button
             onClick={() => push("/signup")}
             className="w-full mt-3"

@@ -11,7 +11,6 @@ API.interceptors.request.use(
     if (typeof window !== "undefined") {
       value = localStorage.getItem("token") || "";
     }
-    console.log(value);
     config.headers.Authorization = "Bearer " + value;
     return config;
   },
