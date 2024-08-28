@@ -128,9 +128,11 @@ export function BookingList() {
                     <div className="flex items-center justify-end gap-2">
                       <AlertDialog>
                         <AlertDialogTrigger asChild>
-                          <Button variant={"destructive"}>
-                            Delete Booking
-                          </Button>
+                          {item.status === "DRAFT" ? (
+                            <Button variant={"destructive"}>
+                              Delete Booking
+                            </Button>
+                          ) : null}
                         </AlertDialogTrigger>
                         <AlertDialogContent>
                           <AlertDialogHeader>
