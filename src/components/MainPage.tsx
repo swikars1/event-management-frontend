@@ -31,14 +31,24 @@ function ConditionalAuthButton() {
     return (
       <div className="flex gap-2">
         <Button
+          variant={"outline"}
+          onClick={() => {
+            push("/chats");
+          }}
+        >
+          Chat with Admin
+        </Button>
+        <Button
+          variant={"outline"}
           onClick={() => {
             push("/bookings");
           }}
-          variant={"outline"}
         >
           View Bookings
         </Button>
+
         <Button
+          variant={"destructive"}
           onClick={() => {
             localStorage.clear();
             location.reload();
