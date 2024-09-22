@@ -19,6 +19,11 @@ import { useRouter } from "next/navigation";
 export function LoginForm() {
   const [token, setToken] = useLocalStorage({ key: "token", initialValue: "" });
 
+  const [currentUserId, setCurrentUserId] = useLocalStorage({
+    key: "currentUserId",
+    initialValue: "",
+  });
+
   const { push } = useRouter();
   const {
     register,
@@ -32,6 +37,7 @@ export function LoginForm() {
     mutationKey: ["loginMutation"],
     onSuccess: (res) => {
       setToken(res?.responseObject?.bearerToken || "");
+      setCurrentUserId(res?.responseObject?.id || "");
       push("/");
     },
   });

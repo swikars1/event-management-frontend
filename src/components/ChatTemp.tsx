@@ -23,11 +23,13 @@ import { useSocketRegister } from "@/hooks/useSocketRegister";
 import { socket } from "@/lib/socket";
 import { useState, useEffect, FormEvent } from "react";
 
+type OnlineUser = { id: string; email: string; role: "ADMIN" | "USER" };
 export function ChatTemp() {
   const [messages, setMessages] = useState<{ id: string; message: string }[]>(
     []
   );
   const [input, setInput] = useState("");
+  const [onlineUsers, setOnlineUsers] = useState<OnlineUser[]>([]);
 
   useSocketConnect();
   useSocketConnectionLogs();
@@ -60,6 +62,33 @@ export function ChatTemp() {
     };
   }, [messages]);
 
+  useEffect(() => {
+    function onMsg(data: { message: string }) {
+      setMessages([
+        ...messages,
+        { id: Date.now().toString(), message: data.message },
+      ]);
+      console.log("send_msg_to_user", data.message);
+    }
+    socket.on("send_msg_to_user", onMsg);
+
+    return () => {
+      socket.off("send_msg_to_user", onMsg);
+    };
+  }, [messages]);
+
+  useEffect(() => {
+    function onOnlineUsers(users: OnlineUser[]) {
+      setOnlineUsers(users);
+      console.log("Online users updated:", users);
+    }
+    socket.on("online_users", onOnlineUsers);
+
+    return () => {
+      socket.off("online_users", onOnlineUsers);
+    };
+  }, []);
+
   console.log({ messages });
 
   function sendMessage(e: FormEvent<HTMLFormElement>) {
@@ -68,6 +97,8 @@ export function ChatTemp() {
     setMessages([...messages, { id: Date.now().toString(), message: input }]);
     setInput("");
   }
+
+  console.log({ onlineUsers });
 
   return (
     <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14">
@@ -80,8 +111,13 @@ export function ChatTemp() {
       </header>
       <main className="flex-1 p-4 sm:px-6 sm:py-0">
         <div className="bg-background rounded-lg shadow-sm">
-          <div className="border-b px-4 py-3 font-semibold">
-            Chat with our Admin
+          <div className="border-b px-4 py-3 font-semibold flex justify-between items-center">
+            <span>Chat with our Admin</span>
+            <span className="text-sm text-muted-foreground">
+              {onlineUsers.some((a) => a.role === "ADMIN")
+                ? "🟢 Admin is online."
+                : "🔴 Admin is offline. "}
+            </span>
           </div>
           <div className="p-4 space-y-4">
             {messages.map((item) => (
