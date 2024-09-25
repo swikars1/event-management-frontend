@@ -49,8 +49,8 @@ export function RegisterForm() {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen">
-      <Card className="w-full max-w-md p-6 space-y-4">
+    <div className="flex justify-center items-center h-screen bg-orange-200">
+      <Card className="w-full max-w-md p-6 space-y-4 bg-blue-100">
         <div className="text-center space-y-2">
           <h1 className="text-3xl font-bold">Register</h1>
           <p className="text-muted-foreground">
@@ -112,14 +112,14 @@ export function RegisterForm() {
               </span>
             )}
           </div>
-          <Button type="submit" className="w-full">
+          <Button type="submit" className="w-full bg-red-400 hover:bg-red-300">
             {!isPending ? "Register" : "Please Wait..."}
           </Button>
         </form>
         <p className="text-center">Already have an account?</p>
         <CardDescription>
           <Button
-            className="w-full"
+            className="w-full bg-orange-400 hover:bg-orange-300"
             variant="outline"
             onClick={() => push("/signin")}
           >
